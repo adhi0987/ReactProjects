@@ -1,0 +1,4 @@
+###Sample React Project:
+we used vite@4.1.0 to start
+we selected react and typescript
+then started the project by giving projectname.
