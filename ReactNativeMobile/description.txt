@@ -1,0 +1,1 @@
+1.this folder dedicated for a project on react native using which a mobile application i want to design
