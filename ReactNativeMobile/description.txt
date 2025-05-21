@@ -1,1 +1,6 @@
 1.this folder dedicated for a project on react native using which a mobile application i want to design
+steps
+intiAL command
+npx create-expo-app@latest .
+move all app folder into app-example
+npm run reset-project
