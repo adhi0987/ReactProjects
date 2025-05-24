@@ -9,6 +9,11 @@ npm i clerk-expo
 installed secure tokens 
 npm install expo-secure-store
 made a jwt template for clerk to communicate with convex
+convex backend will be running in the terminal 
+npx convex dev
+clerk and application will be running in another terminal 
+npx expo 
+
 convex folder created
 added the issuer link in auth.config.ts 
 installed svix 
@@ -17,3 +22,11 @@ created a webhook in clerk and was called whenever a new user created by user.cr
 for that a secret key of  clerk webhook was added to env variable of convex
 writen a http.ts and user.ts for authenticatin the endpoint call is from clerk or not 
 then added the user to the convex database 
+creating post part completed 
+used two new packages
+expo-image
+expo-image-picker
+npx install expo-image
+npx install expo-image-picker 
+created us in create.tsx
+new posts.tsx in convex folder for handling image url generation and uploading the user post into posts table 
