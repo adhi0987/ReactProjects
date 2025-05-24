@@ -1,14 +1,17 @@
-import { Image, Text, TouchableOpacity, View } from "react-native";
+import { Text, TouchableOpacity, View } from "react-native";
 import { styles } from "../../styles/auth.styles";
-import { Link } from "expo-router";
-import { SafeAreaProviderCompat } from "@react-navigation/elements";
-import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
+import { useAuth } from "@clerk/clerk-expo";
 export default function Index() {
+  const {signOut}=useAuth();
   return (
-    <View style={styles.container}>
-      <Link href={"/notifications"} >
-        Feed Screen in tabs
-      </Link>
+    <View style={{
+      flex:1,backgroundColor:"black",paddingTop:300
+    }}>
+      <TouchableOpacity onPress={()=>signOut()}>
+        <Text style={{color:"white"}}>
+          SignOut
+        </Text>
+      </TouchableOpacity>
     </View>
   );
 }
