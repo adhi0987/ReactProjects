@@ -4,3 +4,16 @@ intiAL command
 npx create-expo-app@latest .
 move all app folder into app-example
 npm run reset-project
+installed clerk expo 
+npm i clerk-expo 
+installed secure tokens 
+npm install expo-secure-store
+made a jwt template for clerk to communicate with convex
+convex folder created
+added the issuer link in auth.config.ts 
+installed svix 
+npm install svix
+created a webhook in clerk and was called whenever a new user created by user.created event 
+for that a secret key of  clerk webhook was added to env variable of convex
+writen a http.ts and user.ts for authenticatin the endpoint call is from clerk or not 
+then added the user to the convex database 
