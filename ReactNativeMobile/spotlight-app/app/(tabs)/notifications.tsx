@@ -4,10 +4,8 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function Notifications() {
   return (
-    <SafeAreaView>
       <View>
         <Text>Notifications screen</Text>
       </View>
-    </SafeAreaView>
   );
 }
