@@ -1,4 +1,4 @@
-import { mutation } from "./_generated/server";
+import { mutation, MutationCtx, QueryCtx } from "./_generated/server";
 import { v } from "convex/values";
 
 // Create a new user with the given details
@@ -21,7 +21,9 @@ export const createUser = mutation({
         .first();
 
       if (existingUser) {
-        console.log(`[createUser] User with clerkId "${args.clerkId}" already exists. Skipping creation.`);
+        console.log(
+          `[createUser] User with clerkId "${args.clerkId}" already exists. Skipping creation.`
+        );
         return;
       }
 
@@ -40,10 +42,22 @@ export const createUser = mutation({
       const insertedId = await ctx.db.insert("users", newUser);
       console.log(`[createUser] New user created with ID: ${insertedId}`);
       return insertedId;
-
     } catch (error) {
       console.error("[createUser] Error creating user:", error);
       throw new Error("Failed to create user. See logs for more details.");
     }
   },
 });
+
+//helper function
+export async function getAuthenticatedUser(ctx: QueryCtx | MutationCtx) {
+  const identity = await ctx.auth.getUserIdentity();
+  if (!identity) throw new Error("User is not logged in. Please sign in to continue.");
+  const currentUser = await ctx.db
+    .query("users")
+    .withIndex("by_clerk_id", (q) => q.eq("clerkId", identity.subject))
+    .first();
+
+  if (!currentUser) throw new Error("User not found");
+  return currentUser;
+}
