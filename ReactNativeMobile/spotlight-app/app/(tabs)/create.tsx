@@ -86,6 +86,8 @@ export default function CreateScreen() {
       console.log("Creating post with caption:", caption);
       await createPost({ storageId, caption });
 
+      setSelectedImage(null);
+      setCaption("");
       console.log("Post created successfully. Navigating to tabs.");
       router.push("/(tabs)");
     } catch (error) {

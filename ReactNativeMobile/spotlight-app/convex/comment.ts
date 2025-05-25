@@ -23,6 +23,7 @@ export const addComment = mutation({
 
     if (post.userId !== (await currentUser)._id) {
       await ctx.db.insert("notifications", {
+        postId:args.postId,
         recieverId: post.userId,
         senderId: (await currentUser)._id,
         type: "comment",
