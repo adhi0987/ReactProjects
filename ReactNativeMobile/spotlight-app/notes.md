@@ -27,3 +27,6 @@
 - Simpler API: when you prefer a more straightforward  API with fewer options to configure
 - Specific opacity animations: When you need a precise control over the opacity values on press.
 - Legacy support for maintaining consistency with existing components.
+
+## Note: 
+- double exclamation converts the js object into boolean

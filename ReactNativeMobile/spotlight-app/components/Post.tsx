@@ -1,17 +1,16 @@
-import { View, Text, TouchableOpacity } from "react-native";
-import React, { useState, useEffect } from "react";
-import { Link } from "expo-router";
-import { styles } from "@/styles/feed.styles";
-import { Image } from "expo-image";
-import { Ionicons } from "@expo/vector-icons";
 import { COLORS } from "@/constants/theme";
-import { Id } from "@/convex/_generated/dataModel";
-import { useMutation, useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
-import CommentsModal from "./CommentsModal";
-import { formatDistanceToNow } from "date-fns";
+import { Id } from "@/convex/_generated/dataModel";
+import { styles } from "@/styles/feed.styles";
 import { useUser } from "@clerk/clerk-expo";
-import { deletePost } from "@/convex/posts";
+import { Ionicons } from "@expo/vector-icons";
+import { useMutation, useQuery } from "convex/react";
+import { formatDistanceToNow } from "date-fns";
+import { Image } from "expo-image";
+import { Link } from "expo-router";
+import React, { useEffect, useState } from "react";
+import { Text, TouchableOpacity, View } from "react-native";
+import CommentsModal from "./CommentsModal";
 
 type PostProps = {
   post: {
@@ -25,8 +24,8 @@ type PostProps = {
     isBookmarked: boolean;
     author: {
       _id: Id<"users"> | undefined;
-      username: string |undefined;
-      image: string| undefined;
+      username: string | undefined;
+      image: string | undefined;
     };
   };
 };
@@ -34,8 +33,8 @@ type PostProps = {
 export default function Post({ post }: PostProps) {
   const [isLiked, setIsLiked] = useState(post.isLiked);
   const [isBookmarked, setIsBookmarked] = useState(post.isBookmarked);
-  const [likesCount, setLikesCount] = useState(post.likes);
-  const [commnetsCount, setCommentsCount] = useState(post.comments);
+  // const [likesCount, setLikesCount] = useState(post.likes);
+  // const [commnetsCount, setCommentsCount] = useState(post.comments);
   const [showComments, setShowComments] = useState(false);
 
   const { user } = useUser();
@@ -47,16 +46,15 @@ export default function Post({ post }: PostProps) {
   );
   const toggleLike = useMutation(api.posts.toggleLike);
   const toggleBookmark = useMutation(api.bookmarks.toggleBookmark);
-  const deletePost =useMutation(api.posts.deletePost);
+  const deletePost = useMutation(api.posts.deletePost);
   useEffect(() => {
     console.log("[DEBUG] Post Loaded:", post);
   }, []);
 
   const handleLike = async () => {
     try {
-      console.log("[DEBUG] Like button pressed. Current state:", {
-        isLiked,
-        likesCount,
+      console.log("[DEBUG] Like button pressed.", {
+        isLiked
       });
 
       const newIsLiked = await toggleLike({ postId: post._id });
@@ -64,11 +62,11 @@ export default function Post({ post }: PostProps) {
       console.log("[DEBUG] toggleLike response:", newIsLiked);
 
       setIsLiked(newIsLiked);
-      setLikesCount((prev) => (newIsLiked ? prev + 1 : prev - 1));
+      // setLikesCount((prev) => (newIsLiked ? prev + 1 : prev - 1));
 
       console.log("[DEBUG] Updated state:", {
         isLiked: newIsLiked,
-        likesCount: newIsLiked ? likesCount + 1 : likesCount - 1,
+        // likesCount: newIsLiked ? likesCount + 1 : likesCount - 1,
       });
     } catch (error) {
       console.error("[ERROR] Error toggling like:", error);
@@ -80,18 +78,25 @@ export default function Post({ post }: PostProps) {
     setIsBookmarked(newIsBookmarked);
   };
 
-  const handleDelete = async () =>{
+  const handleDelete = async () => {
     try {
-      await deletePost({postId:post._id});
+      await deletePost({ postId: post._id });
     } catch (error) {
-      console.log("error deleting the post")
+      console.log("error deleting the post");
     }
   };
   return (
     <View style={styles.post}>
       {/* Post Header */}
       <View style={styles.postHeader}>
-        <Link href="/(tabs)/notifications">
+        <Link
+          href={
+            currentUser?._id === post.author._id
+              ? "/(tabs)/profile"
+              : `/user/${post.author._id}`
+          }
+          asChild
+        >
           <TouchableOpacity style={styles.postHeaderLeft}>
             <Image
               source={post.author.image}
@@ -106,15 +111,15 @@ export default function Post({ post }: PostProps) {
         {/* here if user is the owner of the post he can delete it otherwise he cannot */}
         {post.author._id === (currentUser?._id as string) ? (
           <TouchableOpacity onPress={handleDelete}>
-            <Ionicons
-              name="trash-outline"
-              size={20}
-              color={COLORS.white}
-            />
+            <Ionicons name="trash-outline" size={20} color={COLORS.white} />
           </TouchableOpacity>
         ) : (
           <TouchableOpacity>
-            <Ionicons name="ellipsis-horizontal" size={20} color={COLORS.white} />
+            <Ionicons
+              name="ellipsis-horizontal"
+              size={20}
+              color={COLORS.white}
+            />
           </TouchableOpacity>
         )}
       </View>
@@ -158,8 +163,8 @@ export default function Post({ post }: PostProps) {
       {/* Post Info */}
       <View style={styles.postInfo}>
         <Text style={styles.likesText}>
-          {likesCount > 0
-            ? `${likesCount.toLocaleString()} likes`
+          {post.likes > 0
+            ? `${post.likes.toLocaleString()} likes`
             : "Be The First To Like"}
         </Text>
         {post.caption && (
@@ -168,11 +173,11 @@ export default function Post({ post }: PostProps) {
             <Text style={styles.captionText}>{post.caption}</Text>
           </View>
         )}
-        {commnetsCount > 0 && (
+        {post.comments> 0 && (
           <TouchableOpacity onPress={() => setShowComments(true)}>
             <Text style={styles.commentText}>
               {" "}
-              View all {commnetsCount}comments
+              View all {post.comments}comments
             </Text>
           </TouchableOpacity>
         )}
@@ -184,7 +189,7 @@ export default function Post({ post }: PostProps) {
         postId={post._id}
         visible={showComments}
         onClose={() => setShowComments(false)}
-        onCommentAdded={() => setCommentsCount((prev) => prev + 1)}
+        
       />
     </View>
   );
