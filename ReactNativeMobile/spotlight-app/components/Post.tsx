@@ -24,9 +24,9 @@ type PostProps = {
     isLiked: boolean;
     isBookmarked: boolean;
     author: {
-      _id: string;
-      username: string;
-      image: string;
+      _id: Id<"users"> | undefined;
+      username: string |undefined;
+      image: string| undefined;
     };
   };
 };
@@ -104,7 +104,7 @@ export default function Post({ post }: PostProps) {
           </TouchableOpacity>
         </Link>
         {/* here if user is the owner of the post he can delete it otherwise he cannot */}
-        {post.author._id === currentUser?._id ? (
+        {post.author._id === (currentUser?._id as string) ? (
           <TouchableOpacity onPress={handleDelete}>
             <Ionicons
               name="trash-outline"
