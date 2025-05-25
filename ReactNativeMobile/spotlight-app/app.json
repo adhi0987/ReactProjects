@@ -16,7 +16,8 @@
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "black"
       },
-      "edgeToEdgeEnabled": true
+      "edgeToEdgeEnabled": true,
+      "package": "com.adhi0987.spotlightapp"
     },
     "web": {
       "bundler": "metro",
@@ -31,12 +32,19 @@
           "image": "./assets/images/splash-icon.png",
           "imageWidth": 200,
           "resizeMode": "contain",
-          "backgroundColor":"black"
+          "backgroundColor": "black"
         }
       ]
     ],
     "experiments": {
       "typedRoutes": true
-    }
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "a5828e8d-c58c-41ba-ad16-125548f55e60"
+      }
+    },
+    "owner": "adhi0987"
   }
 }

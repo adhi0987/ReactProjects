@@ -5,6 +5,7 @@ import { useFonts } from "expo-font";
 import { SplashScreen } from "expo-router";
 import { useCallback, useEffect } from "react";
 import { Platform, SafeAreaView } from "react-native";
+import { StatusBar} from "expo-status-bar";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import * as NavigationBar from "expo-navigation-bar";
 SplashScreen.preventAutoHideAsync();
@@ -29,6 +30,7 @@ export default function RootLayout() {
           <InitialLayout />
         </SafeAreaView>
       </SafeAreaProvider>
+      <StatusBar style="light"/>
     </ClerkAndConvexProvider>
   );
 }
