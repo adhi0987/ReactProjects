@@ -30,3 +30,8 @@ npx install expo-image
 npx install expo-image-picker 
 created us in create.tsx
 new posts.tsx in convex folder for handling image url generation and uploading the user post into posts table 
+
+
+
+completed this project and first time deployed successfully
+https://adhithya-spotlight-app--09pcn93kdm.expo.app/
