@@ -45,7 +45,7 @@ export default function Profile() {
           <Text style={styles.username}>{currentUser.username}</Text>
         </View>
         <View style={styles.headerLeft}>
-          <TouchableOpacity style={styles.headerIcon}>
+          <TouchableOpacity onPress={()=>signOut()} style={styles.headerIcon}>
             <Ionicons name="log-out-outline" size={24} color={COLORS.white} />
           </TouchableOpacity>
         </View>

@@ -28,5 +28,15 @@
 - Specific opacity animations: When you need a precise control over the opacity values on press.
 - Legacy support for maintaining consistency with existing components.
 
+# Building and Publilshing
+- build app for production with ExpoApplication Services
+
+# steps
+ - visiti expo.dev and signuo
+ - npm i -g eas-cli
+ - eas login
+ - eas init
+ - eas build --platform android
+
 ## Note: 
 - double exclamation converts the js object into boolean
